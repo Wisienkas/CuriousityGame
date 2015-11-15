@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using CuriousityGame.CuriousityGame;
+using CuriousityGame.Exceptions;
 
 namespace CuriousityGame
 {
@@ -45,15 +46,18 @@ namespace CuriousityGame
 
         public MarsRover(Game game, Point p, Orientation orientation) : base(game)
         {
-            // TODO: check if initialized at weird point, and throw exception
-            _position.X = p.X + (int)_origin.X;
-           _position.Y = FlipYCoordinate(p.Y+(int)_origin.Y);
-            _chasePoint = new Point(Position.X, Position.Y);
-            _orientation = orientation;
-            _degrees = (int)orientation;
             _controller = new RoverController();
             _controller.Rover = this;
             _controller.InitializeTerrain();
+            _position.X = p.X + (int)_origin.X;
+           _position.Y = FlipYCoordinate(p.Y+(int)_origin.Y);
+            if(!Controller.Tilemap.CheckMove(Controller.GetRoverPosition()))
+            {
+                throw new InitializationException(p);
+            }
+            _chasePoint = new Point(Position.X, Position.Y);
+            _orientation = orientation;
+            _degrees = (int)orientation;
         }
 
 #region XNA logic
@@ -110,7 +114,13 @@ namespace CuriousityGame
             if (_position == _chasePoint)
             {
                 Idle = true;
-                _controller.nextMove();
+                try
+                {
+                    _controller.nextMove();
+                } catch (InvalidMoveException e)
+                {
+                    // Here futher exception handling can be done.
+                }
             }
         }
 
@@ -119,35 +129,36 @@ namespace CuriousityGame
             // Handle X
             if(_position.X <= 0)
             {
-                _position.X = 524;
-                _chasePoint.X = 475;
+                _position.X = (int) (MapSize(0) + (_origin.X - 1));
+                _chasePoint.X = (int) (MapSize(0) - _origin.X);
             }
-            else if(_position.X > 500)
+            else if(_position.X > MapSize(0))
             {
-                _position.X = -24;
-                _chasePoint.X = 25;
+                _position.X = (int) (-1 * (_origin.X - 1));
+                _chasePoint.X = (int) _origin.X;
             }
             // Handle Y
             if (_position.Y <= 0)
             {
-                _position.Y = 524;
-                _chasePoint.Y = 475;
+                _position.Y = (int)(MapSize(0) + (_origin.Y - 1));
+                _chasePoint.Y = (int)(MapSize(0) - _origin.Y);
             }
-            else if (_position.Y > 500)
+            else if (_position.Y > MapSize(0))
             {
-                _position.Y = -24;
-                _chasePoint.Y = 25;
+                _position.Y = (int)(-1 * (_origin.Y - 1));
+                _chasePoint.Y = (int)_origin.Y;
             }
         }
 
         private bool insideMap()
         {
-            return insideMap(Position.X) && insideMap(Position.Y);
+            return insideMap(Position.X, 0) && insideMap(Position.Y, 1);
         }
 
-        private bool insideMap(int p)
+        private bool insideMap(int p, int dimension)
         {
-            return p < 525 && p > -25;
+            var originSize = dimension == 0 ? _origin.X : _origin.Y;
+            return p < MapSize(dimension) + originSize && p > -1 * originSize;
         }
 
         public override void Draw(GameTime gameTime)
@@ -189,7 +200,19 @@ namespace CuriousityGame
 
         private int FlipYCoordinate(int i)
         {
-            return (int)TileMap.MapDimensions.Y * Tile.Height-i;
+            return MapSize(1) - i;
+        }
+
+        public int MapSize(int dimension)
+        {
+            if (dimension == 0) return (int) Controller.Tilemap.GetMapDimensions().X * Tile.Width;
+            if (dimension == 1) return (int) Controller.Tilemap.GetMapDimensions().Y * Tile.Height;
+            return 0;
+        }
+
+        public Vector2 RoverSize()
+        {
+            return new Vector2(_origin.X * 2, _origin.Y * 2);
         }
 
         public void MoveRover(Move m)

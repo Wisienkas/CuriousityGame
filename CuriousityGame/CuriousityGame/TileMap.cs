@@ -76,8 +76,8 @@ namespace CuriousityGame
         private int wrapDimesion(int value, int dimension)
         {
             int d = _map.GetLength(dimension);
-            if (value < 0) return value + d;
-            if (value >= d) return value - d;
+            if (value < 0) return (value %  d) + d;
+            if (value >= d) return (value % d) - d;
             return value;
         }
 

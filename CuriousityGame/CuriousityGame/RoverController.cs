@@ -37,10 +37,11 @@ namespace CuriousityGame
 
             public Point GetRoverPosition()
             {
+                int lol = (int) Rover.RoverSize().X;
                 return new Point()
                 {
-                    X = (Rover.Position.X - 25) / 50,
-                    Y = (Math.Abs(Rover.Position.Y - 475) / 50)
+                    X = (Rover.Position.X - (int)Rover.RoverSize().X / 2) / (int) Rover.RoverSize().X,
+                    Y = (Math.Abs((Rover.Position.Y - Rover.MapSize(1)) / (int) Rover.RoverSize().Y))
                 };
             }
 
@@ -83,6 +84,8 @@ namespace CuriousityGame
                     cur.Y + orientationVector.Y * directionGate);
                 if (Tilemap.CheckMove(nextMove))
                     Rover.MoveRover(move);
+                else
+                    throw new InvalidMoveException(move);
             }
 
             private Point getForce(Orientation orientation)

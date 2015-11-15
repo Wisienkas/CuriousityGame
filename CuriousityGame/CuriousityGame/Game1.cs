@@ -29,7 +29,7 @@ namespace CuriousityGame
             _tileMap = _player.Controller.Tilemap;
             Components.Add(_player);
 
-            _player.Controller.MoveRover("ffffrb");
+            _player.Controller.MoveRover("fflfffffrfffflffffrflffffrflffrf");
 
             base.Initialize();
         }
