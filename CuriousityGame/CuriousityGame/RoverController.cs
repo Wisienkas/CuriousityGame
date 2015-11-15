@@ -83,9 +83,14 @@ namespace CuriousityGame
                     cur.X + orientationVector.X * directionGate, 
                     cur.Y + orientationVector.Y * directionGate);
                 if (Tilemap.CheckMove(nextMove))
+                {
                     Rover.MoveRover(move);
+                }
                 else
+                {
+                    commandQueue.Clear();
                     throw new InvalidMoveException(move);
+                }
             }
 
             private Point getForce(Orientation orientation)

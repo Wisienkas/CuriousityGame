@@ -125,5 +125,15 @@ namespace CuriousityGameTest
             Assert.AreEqual(3, point.X, "Expected position 3");
             Assert.AreEqual(0, point.Y, "Expected position 0");
         }
+
+        [TestMethod]
+        public void TestQueueClearAfterBlock()
+        {
+            controller.MoveRover("ffffbbb");
+            runUpdates();
+            Point point = controller.GetRoverPosition();
+            Assert.AreEqual(0, point.X, "Expected position 0");
+            Assert.AreEqual(3, point.Y, "Expected position 3");
+        }
     }
 }
