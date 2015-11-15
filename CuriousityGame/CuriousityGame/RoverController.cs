@@ -1,10 +1,13 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace CuriousityGame
 {
     namespace CuriousityGame
     {
-        class RoverController
+        public class RoverController
         {
             /*
              * Game created in the XNA-Framework in correlation with the course "Design of Software Systems"-2015
@@ -17,28 +20,85 @@ namespace CuriousityGame
              * 
              * Good luck!
              */
+             
+            public MarsRover Rover { get; set; }
+            public TileMap Tilemap { get; set; }
+            private Queue<char> commandQueue = new Queue<char>();
 
             public void InitializeTerrain()
             {
-                //TODO: See example in TileMap
+                this.Tilemap = new TileMap();
             }
 
             public Orientation GetRoverOrientiation()
             {
-                //TODO: 
-                return Orientation.NORTH;
+                return Rover.Orientation;
             }
 
             public Point GetRoverPosition()
             {
-                //TODO: 
-                return new Point(0,0);
+                return new Point()
+                {
+                    X = (Rover.Position.X - 25) / 50,
+                    Y = (Math.Abs(Rover.Position.Y - 475) / 50)
+                };
             }
 
             public void MoveRover(string commandSequence)
             {
-                //TODO: 
+                foreach (char command in commandSequence.ToLower())
+                {
+                    commandQueue.Enqueue(command);
+                }
+                if (Rover.Idle) nextMove();
             }
+
+            public void nextMove()
+            {
+                if(commandQueue.Count != 0) HandleCommand(commandQueue.Dequeue());
+            }
+
+            /// <summary>
+            /// Handles a command
+            /// </summary>
+            /// <param name="command"></param>
+            private void HandleCommand(char command)
+            {
+                switch (command)
+                {
+                    case 'f': TryMove(Move.Forward); break;
+                    case 'b': TryMove(Move.Backward); break;
+                    case 'r': Rover.TurnRight(); break;
+                    case 'l': Rover.TurnLeft(); break;
+                }
+            }
+
+            private void TryMove(Move move)
+            {
+                Point cur = GetRoverPosition();
+                Point orientationVector = getForce(GetRoverOrientiation());
+                int directionGate = move == Move.Forward ? 1 : -1;
+                Point nextMove = new Point(
+                    cur.X + orientationVector.X * directionGate, 
+                    cur.Y + orientationVector.Y * directionGate);
+                if (Tilemap.CheckMove(nextMove))
+                    Rover.MoveRover(move);
+            }
+
+            private Point getForce(Orientation orientation)
+            {
+                int x = 0;
+                int y = 0;
+                switch(orientation)
+                {
+                    case Orientation.EAST: x++; break;
+                    case Orientation.WEST: x--; break;
+                    case Orientation.NORTH: y++; break;
+                    case Orientation.SOUTH: y--; break;
+                }
+                return new Point(x, y);
+            }
+            
         }
     }
 }

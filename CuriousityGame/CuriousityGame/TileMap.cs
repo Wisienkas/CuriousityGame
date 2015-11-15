@@ -6,7 +6,7 @@ namespace CuriousityGame
 {
     public class TileMap
     {
-        public static readonly Vector2 MapDimensions = new Vector2(10,10);
+        public static readonly Vector2 MapDimensions = new Vector2(10, 10);
         public List<Tile> TileList = new List<Tile>();
         private readonly int[,] _map = new int[,]
         {
@@ -54,10 +54,40 @@ namespace CuriousityGame
             return MapDimensions;
         }
 
-        public static bool CheckMove(Move m)
+        /// <summary>
+        /// Return True if the point is valid to move unto
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        public bool CheckMove(Point point)
         {
-            //TODO: Check if map is blocked
-            throw new NotImplementedException();
+            // Game is inverted on Y
+            int y = invert(point.Y, 1);
+            Point pointWrapped = wrapMap(point.X, y);
+            int value = _map[pointWrapped.X, pointWrapped.Y];
+            return value != 2;
+        }
+
+        private int invert(int value, int dimension)
+        {
+            return Math.Abs(value - (_map.GetLength(dimension) - 1));
+        }
+
+        private int wrapDimesion(int value, int dimension)
+        {
+            int d = _map.GetLength(dimension);
+            if (value < 0) return value + d;
+            if (value >= d) return value - d;
+            return value;
+        }
+
+        private Point wrapMap(int x, int y)
+        {
+            return new Point()
+            {
+                X = wrapDimesion(x, 0),
+                Y = wrapDimesion(y, 1)
+            };
         }
 
     }

@@ -1,24 +1,40 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CuriousityGame", "CuriousityGame\CuriousityGame\CuriousityGame.csproj", "{7B386835-3D1D-4FAC-A87F-1E4C2D2D5A88}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "CuriousityGameContent", "CuriousityGame\CuriousityGameContent\CuriousityGameContent.contentproj", "{280A72DC-2CD2-47FC-81FB-F9C5745A1090}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CuriousityGameContent", "CuriousityGame\CuriousityGameContent\CuriousityGameContent.contentproj", "{280A72DC-2CD2-47FC-81FB-F9C5745A1090}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CuriousityGameTest", "CuriousityGameTest\CuriousityGameTest.csproj", "{11C402E4-68DA-471F-953C-0A1816965531}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7B386835-3D1D-4FAC-A87F-1E4C2D2D5A88}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{7B386835-3D1D-4FAC-A87F-1E4C2D2D5A88}.Debug|x86.ActiveCfg = Debug|x86
 		{7B386835-3D1D-4FAC-A87F-1E4C2D2D5A88}.Debug|x86.Build.0 = Debug|x86
+		{7B386835-3D1D-4FAC-A87F-1E4C2D2D5A88}.Release|Any CPU.ActiveCfg = Release|x86
 		{7B386835-3D1D-4FAC-A87F-1E4C2D2D5A88}.Release|x86.ActiveCfg = Release|x86
 		{7B386835-3D1D-4FAC-A87F-1E4C2D2D5A88}.Release|x86.Build.0 = Release|x86
+		{280A72DC-2CD2-47FC-81FB-F9C5745A1090}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{280A72DC-2CD2-47FC-81FB-F9C5745A1090}.Debug|x86.ActiveCfg = Debug|x86
+		{280A72DC-2CD2-47FC-81FB-F9C5745A1090}.Release|Any CPU.ActiveCfg = Release|x86
 		{280A72DC-2CD2-47FC-81FB-F9C5745A1090}.Release|x86.ActiveCfg = Release|x86
+		{11C402E4-68DA-471F-953C-0A1816965531}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11C402E4-68DA-471F-953C-0A1816965531}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11C402E4-68DA-471F-953C-0A1816965531}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{11C402E4-68DA-471F-953C-0A1816965531}.Debug|x86.Build.0 = Debug|Any CPU
+		{11C402E4-68DA-471F-953C-0A1816965531}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11C402E4-68DA-471F-953C-0A1816965531}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11C402E4-68DA-471F-953C-0A1816965531}.Release|x86.ActiveCfg = Release|Any CPU
+		{11C402E4-68DA-471F-953C-0A1816965531}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

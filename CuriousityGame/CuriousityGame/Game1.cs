@@ -25,10 +25,12 @@ namespace CuriousityGame
 #region XNA Logic
         protected override void Initialize()
         {
-            _tileMap = new TileMap();
             _player = new MarsRover(this, new Point(0,0),Orientation.NORTH);
+            _tileMap = _player.Controller.Tilemap;
             Components.Add(_player);
-            _player.MoveRover(Move.Forward); //move one step forward
+
+            _player.Controller.MoveRover("ffffrb");
+
             base.Initialize();
         }
 
